@@ -51,7 +51,7 @@ class CharTokenizer:
 
     def encode(self, text):
         encoded = [self._v2i[ch] for ch in text if ch in self._v2i]
-        return np.array(encoded, dtype=np.long)
+        return np.array(encoded, dtype=np.int64)
 
     def decode(self, encoded) -> str:
         return ''.join([

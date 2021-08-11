@@ -12,6 +12,7 @@ class MelSpectrogram:
         self.sample_rate = sample_rate
         self.n_fft = n_fft
         self.hop_length = hop_length
+        self.win_length = win_length
         self.n_mels = n_mels
         self.log_offset = log_offset
 
