@@ -7,11 +7,11 @@ from .text import CharTokenizer
 from .audio import MelSpectrogram
 
 class STT:
-    def __init__(self):
+    def __init__(self, model_path: str) -> None:
         self.sample_rate = 16000
         self._tokenizer = CharTokenizer()
         self._transform = MelSpectrogram()
-        self._stt_sess = ort.InferenceSession('model/onnx/stt_en_conv_base_ctc.onnx')
+        self._stt_sess = ort.InferenceSession(model_path)
 
     def __call__(self, waveform: np.ndarray, sample_rate: int, aligned: bool = True) -> np.ndarray:
         assert sample_rate == self.sample_rate

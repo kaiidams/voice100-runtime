@@ -8,13 +8,13 @@ from .text import make_aligntext, BasicPhonemizer, CharTokenizer
 from .vocoder import WORLDVocoder
 
 class TTS:
-    def __init__(self):
+    def __init__(self, align_model_path, audio_model_path):
         self.sample_rate = 16000
         self._phonemizer = BasicPhonemizer()
         self._tokenizer = CharTokenizer()
         self._vocoder = WORLDVocoder()
-        self._align_sess = ort.InferenceSession('model/onnx/ttsalign_en_conv_base.onnx')
-        self._audio_sess = ort.InferenceSession('model/onnx/ttsaudio_en_conv_base.onnx')
+        self._align_sess = ort.InferenceSession(align_model_path)
+        self._audio_sess = ort.InferenceSession(audio_model_path)
 
     def __call__(self, input_text: str) -> Tuple[np.ndarray, int]:
         text = self._phonemizer(input_text)
