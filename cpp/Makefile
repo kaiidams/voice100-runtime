@@ -1,5 +1,5 @@
-CFLAGS = -I../src
-LDFLAGS = -L../build/x86_64-linux-gnu
+CFLAGS = -I.
+LDFLAGS = -L.
 
 run: test
 	LD_LIBRARY_PATH=. ./test
