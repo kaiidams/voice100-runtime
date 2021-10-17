@@ -85,6 +85,6 @@ std::vector<float> read_data(const char *path)
 void write_data(const std::vector<int16_t>& y)
 {
     std::ofstream ofs("output.dat", std::ostream::binary);
-    ofs.write((char*)y.data(), y.size() * sizeof (double));
+    ofs.write((char*)y.data(), y.size() * sizeof (int16_t));
     ofs.close();
 }
