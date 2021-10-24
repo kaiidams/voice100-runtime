@@ -4,7 +4,7 @@
 #include <world/synthesis.h>
 #include <world/codec.h>
 
-extern "C" int Voice100VocoderDecode(
+extern "C" int Voice100Sharp_VocoderDecode(
     const float* f0, const float* logspc, const float* codedap, int f0_length,
     int fft_size, double frame_period, int fs, float log_offset, int16_t* y, int y_length)
 {
