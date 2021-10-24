@@ -5,11 +5,14 @@ setup(
     version="0.1",
     author="Katsuya Iida",
     author_email="katsuya.iida@gmail.com",
-    description="Voice100 runtime",
+    description="Voice100 Runtime",
     license="MIT",
     url="https://github.com/kaiidams/voice100-runtime",
     packages=['voice100_runtime'],
-    long_description="Voice100 is a small TTS.",
+    long_description="""Voice100 Runtime is a TTS/ASR sample app that uses 
+ONNX Runtime, WORLD and Voice100 neural TTS/ASR models on Python.
+Inference of Voice100 is low cost as its models are tiny and only depend
+on CNN without recursion.""",
     entry_points={
     },
     install_requires=[
