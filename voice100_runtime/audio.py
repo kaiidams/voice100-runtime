@@ -3,12 +3,17 @@
 import numpy as np
 import librosa
 
+
 class MelSpectrogram:
     def __init__(
         self,
-        sample_rate=16000, n_fft=512, hop_length=160, win_length=400,
-        n_mels=64, log_offset: float = 1e-6
-        ) -> None:
+        sample_rate=16000,
+        n_fft=512,
+        hop_length=160,
+        win_length=400,
+        n_mels=64,
+        log_offset: float = 1e-6,
+    ) -> None:
         self.sample_rate = sample_rate
         self.n_fft = n_fft
         self.hop_length = hop_length
