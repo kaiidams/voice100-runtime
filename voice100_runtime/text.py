@@ -4,14 +4,15 @@ import re
 import numpy as np
 
 __all__ = [
-    'BasicPhonemizer',
-    'CharTokenizer',
+    "BasicPhonemizer",
+    "CharTokenizer",
 ]
 
 DEFAULT_CHARACTERS = "_ abcdefghijklmnopqrstuvwxyz'"
 NOT_DEFAULT_CHARACTERS_RX = re.compile("[^" + DEFAULT_CHARACTERS[1:] + "]")
 DEFAULT_VOCAB_SIZE = len(DEFAULT_CHARACTERS)
 assert DEFAULT_VOCAB_SIZE == 29
+
 
 def make_aligntext(text, align, head=5, tail=5):
     aligntext_len = head + int(np.sum(align)) + tail
@@ -28,16 +29,16 @@ def make_aligntext(text, align, head=5, tail=5):
             aligntext[j] = text[i]
     return aligntext
 
-class BasicPhonemizer:
 
+class BasicPhonemizer:
     def __init__(self):
         super().__init__()
 
     def __call__(self, text: str) -> str:
-        return NOT_DEFAULT_CHARACTERS_RX.sub('', text.lower())
+        return NOT_DEFAULT_CHARACTERS_RX.sub("", text.lower())
+
 
 class CharTokenizer:
-
     def __init__(self, vocab=None):
         super().__init__()
         if vocab is None:
@@ -54,13 +55,11 @@ class CharTokenizer:
         return np.array(encoded, dtype=np.int64)
 
     def decode(self, encoded) -> str:
-        return ''.join([
-            self._vocab[x]
-            for x in encoded
-             if 0 <= x < len(self._vocab)])
+        return "".join([self._vocab[x] for x in encoded if 0 <= x < len(self._vocab)])
 
     def merge_repeated(self, text: str) -> str:
-        text = re.sub(r'(.)\1+', r'\1', text)
-        text = text.replace('_', '')
-        if text == ' ': text = ''
+        text = re.sub(r"(.)\1+", r"\1", text)
+        text = text.replace("_", "")
+        if text == " ":
+            text = ""
         return text

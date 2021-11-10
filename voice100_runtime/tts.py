@@ -7,6 +7,7 @@ from typing import Tuple
 from .text import make_aligntext, BasicPhonemizer, CharTokenizer
 from .vocoder import WORLDVocoder
 
+
 class TTS:
     def __init__(self, align_model_path, audio_model_path):
         self.sample_rate = 16000
@@ -19,13 +20,16 @@ class TTS:
     def __call__(self, input_text: str) -> Tuple[np.ndarray, int]:
         text = self._phonemizer(input_text)
         text = self._tokenizer(text)
-        align, = self._align_sess.run(output_names=['align'],
-            input_feed={'text': text[None, :]})
+        (align,) = self._align_sess.run(
+            output_names=["align"], input_feed={"text": text[None, :]}
+        )
         align = np.clip(align, a_min=0, a_max=None)
         align = np.exp(align) - 1
         align = align[0]
         aligntext = make_aligntext(text, align)
-        f0, logspc, codeap = self._audio_sess.run(output_names=['f0', 'logspc', 'codeap'],
-            input_feed={'aligntext': aligntext[None, :]})
+        f0, logspc, codeap = self._audio_sess.run(
+            output_names=["f0", "logspc", "codeap"],
+            input_feed={"aligntext": aligntext[None, :]},
+        )
         waveform = self._vocoder.decode(f0[0], logspc[0], codeap[0])
         return waveform, self.sample_rate
