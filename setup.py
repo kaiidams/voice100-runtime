@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="voice100-runtime",
-    version="0.1",
+    version="0.2",
     author="Katsuya Iida",
     author_email="katsuya.iida@gmail.com",
     description="Voice100 Runtime",
