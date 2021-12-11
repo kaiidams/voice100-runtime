@@ -8,4 +8,7 @@ on Python.
 Inference of Voice100 is low cost as its models are tiny and only depend
 on CNN without recursion.
 
-[Sample audio](sample.wav)
+- Beginnings are apt to be determinative and when reinforced 
+by continuous applications of similar influence. [Sample audio](sample.wav)
+- mata toojinoyoonigodaimyooootoyobarerushuyoonamyoooonochuuoonihaisarerukotomoooi
+[Japanese sample audio](sample_ja.wav)
