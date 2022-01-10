@@ -7,19 +7,19 @@ from .text import CharTokenizer
 from .audio import MelSpectrogram
 
 
-class STT:
+class ASR:
     def __init__(self, model_path: str) -> None:
         self.sample_rate = 16000
         self._tokenizer = CharTokenizer()
         self._transform = MelSpectrogram()
-        self._stt_sess = ort.InferenceSession(model_path)
+        self._asr_sess = ort.InferenceSession(model_path)
 
     def __call__(
         self, waveform: np.ndarray, sample_rate: int, aligned: bool = True
     ) -> np.ndarray:
         assert sample_rate == self.sample_rate
         audio = self._transform(waveform)
-        (logits,) = self._stt_sess.run(
+        (logits,) = self._asr_sess.run(
             output_names=["logits"], input_feed={"audio": audio[np.newaxis, :, :]}
         )
 
