@@ -7,11 +7,11 @@ CACHE_DIR = os.path.expanduser("~/.cache/voice100_runtime")
 
 MODEL_URLS = {
     "asr_en": [
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/asr_en_conv_base_ctc-20220109.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/asr_en_conv_base_ctc-20220109.onnx"
     ],
     "tts_en": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsaudio_en_conv_base-20210811-2.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_conv_base-20220107.onnx"
     ],
     "asr_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/asr_ja_conv_base_ctc-20211127.onnx"
@@ -37,6 +37,12 @@ def download_model(url: str) -> str:
 
 
 def load(name):
+    # For compatibility
+    if name == "stt_en":
+        name = "asr_en"
+    elif name == "stt_ja":
+        name = "asr_ja"
+
     if name == "asr_en" or name == "asr_ja":
         model_path = download_model(MODEL_URLS[name][0])
         from .asr import ASR
