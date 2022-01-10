@@ -42,8 +42,8 @@ available.
 ```python
 import soundfile as sf
 import voice100_runtime
-stt = voice100_runtime.load("stt_en")
+asr = voice100_runtime.load("asr_en")
 waveform, sample_rate = sf.read("output.wav")
-text = stt(waveform, sample_rate)
+text = asr(waveform, sample_rate)
 print(text)
 ```

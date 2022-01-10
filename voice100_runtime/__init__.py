@@ -6,14 +6,14 @@ import sys
 CACHE_DIR = os.path.expanduser("~/.cache/voice100_runtime")
 
 MODEL_URLS = {
-    "stt_en": [
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/stt_en_conv_base_ctc-20211125.onnx"
+    "asr_en": [
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/asr_en_conv_base_ctc-20220109.onnx"
     ],
     "tts_en": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsaudio_en_conv_base-20210811.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_conv_base-20220107.onnx"
     ],
-    "stt_ja": [
+    "asr_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/stt_ja_conv_base_ctc-20211127.onnx"
     ],
     "tts_ja": [
@@ -37,11 +37,17 @@ def download_model(url: str) -> str:
 
 
 def load(name):
-    if name == "stt_en" or name == "stt_ja":
-        model_path = download_model(MODEL_URLS[name][0])
-        from .stt import STT
+    # For compatibility
+    if name == "stt_en":
+        name = "asr_en"
+    elif name == "stt_ja":
+        name = "asr_ja"
 
-        return STT(model_path)
+    if name == "asr_en" or name == "asr_ja":
+        model_path = download_model(MODEL_URLS[name][0])
+        from .asr import ASR
+
+        return ASR(model_path)
     elif name == "tts_en" or name == "tts_ja":
         align_model_path = download_model(MODEL_URLS[name][0])
         audio_model_path = download_model(MODEL_URLS[name][1])
