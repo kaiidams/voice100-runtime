@@ -14,7 +14,7 @@ MODEL_URLS = {
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_conv_base-20220107.onnx"
     ],
     "asr_ja": [
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/asr_ja_conv_base_ctc-20211127.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/stt_ja_conv_base_ctc-20211127.onnx"
     ],
     "tts_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/ttsalign_ja_conv_base-20211118.onnx",
