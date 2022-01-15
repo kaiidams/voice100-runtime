@@ -13,6 +13,10 @@ MODEL_URLS = {
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_conv_base-20220107.onnx"
     ],
+    "tts_en_phone": [
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_phone_conv_base-20220104.onnx",
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_phone_conv_base-20220105.onnx"
+    ],
     "asr_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/stt_ja_conv_base_ctc-20211127.onnx"
     ],
@@ -43,16 +47,17 @@ def load(name):
     elif name == "stt_ja":
         name = "asr_ja"
 
-    if name == "asr_en" or name == "asr_ja":
+    if name.startswith("asr_") and name in MODEL_URLS:
         model_path = download_model(MODEL_URLS[name][0])
         from .asr import ASR
 
         return ASR(model_path)
-    elif name == "tts_en" or name == "tts_ja":
+    elif name.startswith("tts_") and name in MODEL_URLS:
+        use_phone = name.endswith("_phone")
         align_model_path = download_model(MODEL_URLS[name][0])
         audio_model_path = download_model(MODEL_URLS[name][1])
         from .tts import TTS
 
-        return TTS(align_model_path, audio_model_path)
+        return TTS(align_model_path, audio_model_path, use_phone=use_phone)
     else:
         raise ValueError(f"Unknown model {name}")
