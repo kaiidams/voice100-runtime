@@ -21,6 +21,13 @@ Use `pip` to install from GitHub.
 pip install git+https://github.com/kaiidams/voice100-runtime.git
 ```
 
+## List available models
+
+```python
+import voice100_runtime
+print(voice100_runtime.list_models())
+```
+
 ## Using TTS
 
 This downloads ONNX files in `~/.cache/voice100_runtime/` if not
