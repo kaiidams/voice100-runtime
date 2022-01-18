@@ -9,20 +9,23 @@ MODEL_URLS = {
     "asr_en": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/asr_en_conv_base_ctc-20220109.onnx"
     ],
+    "asr_en_phone": [
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/asr_en_phone_conv_base_ctc-20220115.onnx"
+    ],
     "tts_en": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_conv_base-20220107.onnx"
     ],
     "tts_en_phone": [
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_phone_conv_base-20220104.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_phone_conv_base-20220105.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsalign_en_phone_conv_base-20220104.onnx",
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_en_phone_conv_base-20220105.onnx"
     ],
     "asr_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/stt_ja_conv_base_ctc-20211127.onnx"
     ],
     "tts_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/ttsalign_ja_conv_base-20211118.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/ttsaudio_ja_conv_base-20211118.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_ja_conv_base-20220111.onnx"
     ],
 }
 

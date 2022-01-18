@@ -112,4 +112,11 @@ class CMUTokenizer():
             if 0 <= x < len(self._vocab)])
 
     def merge_repeated(self, text: Text) -> Text:
-        raise NotImplementedError()
+        tokens = []
+        prev_token = None
+        for token in text.split("/"):
+            if token != prev_token:
+                if token != "_":
+                    tokens.append(token)
+                prev_token = token
+        return "/".join(tokens)
