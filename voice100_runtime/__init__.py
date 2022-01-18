@@ -1,5 +1,6 @@
 # Copyright (C) 2021 Katsuya Iida. All rights reserved.
 
+from typing import Text, List
 import os
 import sys
 
@@ -30,7 +31,7 @@ MODEL_URLS = {
 }
 
 
-def download_model(url: str) -> str:
+def download_model(url: Text) -> Text:
     if not os.path.exists(CACHE_DIR):
         os.makedirs(CACHE_DIR)
     cached_file = os.path.join(CACHE_DIR, os.path.basename(url))
@@ -43,7 +44,13 @@ def download_model(url: str) -> str:
     return cached_file
 
 
-def load(name):
+def list_models() -> List[Text]:
+    """List names of all available models."""
+    return list(MODEL_URLS.keys())
+
+
+def load(name: Text):
+    """Load a model"""
     # For compatibility
     if name == "stt_en":
         name = "asr_en"

@@ -35,6 +35,13 @@ class Voice100RuntimeTest(unittest.TestCase):
         waveform, sample_rate = tts(TEST_TEXT_JA)
         sf.write("output_ja.wav", waveform, sample_rate, "PCM_16")
 
+    def test_list(self):
+        models = voice100_runtime.list_models()
+        self.assertIn("asr_en", models)
+        self.assertIn("tts_en", models)
+        self.assertIn("tts_en_phone", models)
+        self.assertEqual(len(models), 6)
+
 
 if __name__ == "__main__":
     unittest.main()
