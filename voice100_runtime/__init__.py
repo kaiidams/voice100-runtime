@@ -13,20 +13,28 @@ MODEL_URLS = {
     "asr_en_phone": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/asr_en_phone_conv_base_ctc-20220115.onnx"
     ],
-    "tts_en": [
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_conv_base-20220107.onnx"
-    ],
-    "tts_en_phone": [
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsalign_en_phone_conv_base-20220104.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_en_phone_conv_base-20220105.onnx"
-    ],
     "asr_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/stt_ja_conv_base_ctc-20211127.onnx"
     ],
+    "tts_en": [
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/ttsaudio_en_conv_base-20220107.onnx",
+        None
+    ],
+    "tts_en_phone": [
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsalign_en_phone_conv_base-20220104.onnx",
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_en_phone_conv_base-20220105.onnx",
+        "phone"
+    ],
+    "tts_mt_en": [
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.2.0.pre1/ttsaudio_mt_en_conv_base-20220120.onnx",
+        "mt"
+    ],
     "tts_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.2/ttsalign_ja_conv_base-20211118.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_ja_conv_base-20220111.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_ja_conv_base-20220111.onnx",
+        None
     ],
 }
 
@@ -63,11 +71,10 @@ def load(name: Text):
 
         return ASR(model_path)
     elif name.startswith("tts_") and name in MODEL_URLS:
-        use_phone = name.endswith("_phone")
+        modeltype = MODEL_URLS[name][2]
         align_model_path = download_model(MODEL_URLS[name][0])
         audio_model_path = download_model(MODEL_URLS[name][1])
         from .tts import TTS
-
-        return TTS(align_model_path, audio_model_path, use_phone=use_phone)
+        return TTS(align_model_path, audio_model_path, modeltype=modeltype)
     else:
         raise ValueError(f"Unknown model {name}")
