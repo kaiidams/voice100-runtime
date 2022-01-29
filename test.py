@@ -17,7 +17,7 @@ class Voice100RuntimeTest(unittest.TestCase):
         asr = voice100_runtime.load("asr_en")
         waveform, sample_rate = sf.read("output.wav")
         text = asr(waveform, sample_rate)
-        print(text)
+        print("Prediction:", text)
 
     def test_tts(self):
         tts = voice100_runtime.load("tts_en")
@@ -28,7 +28,7 @@ class Voice100RuntimeTest(unittest.TestCase):
         asr = voice100_runtime.load("asr_ja")
         waveform, sample_rate = sf.read("output_ja.wav")
         text = asr(waveform, sample_rate)
-        print(text)
+        print("Prediction:", text)
 
     def test_tts_ja(self):
         tts = voice100_runtime.load("tts_ja")
