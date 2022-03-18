@@ -13,9 +13,17 @@ from .vocoder import WORLDVocoder
 
 
 class TTS:
-    def __init__(self, align_model_path, audio_model_path, use_phone=False):
+    def __init__(
+        self, align_model_path: Text, audio_model_path: Text,
+        modeltype: Text = None
+    ):
         self.sample_rate = 16000
-        if use_phone:
+        self._modeltype = modeltype
+        if self._modeltype == "mt":
+            self._phonemizer = BasicPhonemizer()
+            self._tokenizer = CharTokenizer()
+            self._output_tokenizer = CMUTokenizer()
+        elif self._modeltype == "phone":
             self._phonemizer = CMUPhonemizer()
             self._tokenizer = CMUTokenizer()
         else:
@@ -37,13 +45,24 @@ class TTS:
         align = np.exp(align) - 1
         align = align[0]
         aligntext = make_aligntext(text, align)
-        f0, logspc, codeap = self._audio_sess.run(
-            output_names=["f0", "logspc", "codeap"],
-            input_feed={"aligntext": aligntext[None, :]},
-        )
-        waveform = self._vocoder.decode(f0[0], logspc[0], codeap[0])
-        if return_align:
-            aligntext = self._tokenizer.decode(aligntext)
-            return waveform, self.sample_rate, aligntext.split("/")
+        if self._modeltype == "mt":
+            f0, logspc, codeap, logits = self._audio_sess.run(
+                output_names=["f0", "logspc", "codeap", "logits"],
+                input_feed={"aligntext": aligntext[None, :]},
+            )
+            waveform = self._vocoder.decode(f0[0], logspc[0], codeap[0])
+            if return_align:
+                outputtext = np.argmax(logits, axis=1)
+                outputtext = self._output_tokenizer.decode(outputtext[0])
+                return waveform, self.sample_rate, outputtext.split("/")
+            return waveform, self.sample_rate
         else:
+            f0, logspc, codeap = self._audio_sess.run(
+                output_names=["f0", "logspc", "codeap"],
+                input_feed={"aligntext": aligntext[None, :]},
+            )
+            waveform = self._vocoder.decode(f0[0], logspc[0], codeap[0])
+            if return_align:
+                aligntext = self._tokenizer.decode(aligntext)
+                return waveform, self.sample_rate, aligntext
             return waveform, self.sample_rate
