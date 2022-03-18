@@ -26,9 +26,9 @@ MODEL_URLS = {
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_en_phone_conv_base-20220105.onnx",
         "phone"
     ],
-    "tts_mt_en": [
+    "tts_en_mt": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v0.1/ttsalign_en_conv_base-20210808.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.2.0.pre1/ttsaudio_mt_en_conv_base-20220120.onnx",
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.2.0/ttsaudio_en_mt_conv_base-20220316.onnx",
         "mt"
     ],
     "tts_ja": [

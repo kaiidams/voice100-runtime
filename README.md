@@ -54,3 +54,17 @@ waveform, sample_rate = sf.read("output.wav")
 text = asr(waveform, sample_rate)
 print(text)
 ```
+
+## Using multi-task TTS
+
+This downloads ONNX files in `~/.cache/voice100_runtime/` if not
+available.
+
+```python
+import soundfile as sf
+import voice100_runtime
+tts = voice100_runtime.load("tts_en_mt")
+waveform, sample_rate, align = tts("Hello, world!", return_align=True)
+print("/".join(align))
+sf.write("output.wav", waveform, sample_rate, "PCM_16")
+```
