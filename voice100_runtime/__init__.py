@@ -8,7 +8,7 @@ CACHE_DIR = os.path.expanduser("~/.cache/voice100_runtime")
 
 MODEL_URLS = {
     "asr_en": [
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.0.1/asr_en_conv_base_ctc-20220109.onnx"
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.1/asr_en_conv_base_ctc-20220126.onnx"
     ],
     "asr_en_phone": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/asr_en_phone_conv_base_ctc-20220115.onnx"
