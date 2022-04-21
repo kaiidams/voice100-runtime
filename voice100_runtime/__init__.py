@@ -33,7 +33,7 @@ MODEL_URLS = {
     ],
     "tts_ja": [
         "https://github.com/kaiidams/voice100-runtime/releases/download/v1.3.0/ttsalign_ja_conv_base-20220411.onnx",
-        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.1.0/ttsaudio_ja_conv_base-20220111.onnx",
+        "https://github.com/kaiidams/voice100-runtime/releases/download/v1.3.1/ttsaudio_ja_conv_base-20220416.onnx",
         None
     ],
 }
