@@ -28,6 +28,21 @@ CMU_VOCAB = [
     'UH0', 'UH1', 'UH2', 'UW',
     'UW0', 'UW1', 'UW2', 'V', 'W', 'Y', 'Z', 'ZH']
 
+assert len(CMU_VOCAB) == 71
+
+JA_VOCAB = [
+    '-', '!', ',', '.', '?', 'N', 'a', 'a:', 'b', 'by',
+    'ch', 'd', 'e', 'e:', 'f', 'g', 'gy', 'h', 'hy', 'i',
+    'i:', 'j', 'k', 'ky', 'm', 'my', 'n', 'ny', 'o', 'o:',
+    'p', 'py', 'q', 'r', 'ry', 's', 'sh', 't', 'ts', 'u',
+    'u:', 'w', 'y', 'z'
+]
+
+assert len(JA_VOCAB) == 44
+
+REPEATED_TOKENS_RX = re.compile(r'\n([^\n]+)(\n\1)+(?=\n)')
+REPEATED_BLANKS_RX = re.compile(r'(\n\t)+(?=\n)')
+
 
 def make_aligntext(text, align, head=5, tail=5) -> np.ndarray:
     aligntext_len = head + int(np.sum(align)) + tail
@@ -51,6 +66,43 @@ class BasicPhonemizer:
 
     def __call__(self, text: Text) -> Text:
         return NOT_DEFAULT_CHARACTERS_RX.sub("", text.lower())
+
+
+class BasicTokenizer():
+    def __init__(self, language=None):
+        super().__init__()
+        if language == 'en':
+            vocab = CMU_VOCAB
+            separator = '/'
+        elif language == 'ja':
+            vocab = JA_VOCAB
+            separator = ' '
+        else:
+            raise ValueError()
+        self.vocab_size = len(vocab)
+        self._separator = separator
+        self._vocab = vocab
+        self._v2i = {x: i for i, x in enumerate(vocab)}
+
+    def __call__(self, text: Text) -> np.ndarray:
+        return self.encode(text)
+
+    def encode(self, text: Text) -> np.ndarray:
+        encoded = [self._v2i[ch] for ch in text.split(self._separator) if ch in self._v2i]
+        return np.array(encoded, dtype=np.int64)
+
+    def decode(self, encoded: np.ndarray) -> Text:
+        return self._separator.join([
+            self._vocab[x]
+            for x in encoded
+            if 0 <= x < len(self._vocab)])
+
+    def merge_repeated(self, text: Text) -> Text:
+        text = text.replace(self._separator, '\n')
+        text = text.replace(self._vocab[0], '\t')
+        text = re.sub(REPEATED_TOKENS_RX, r'\n\1', '\n' + text + '\n')
+        text = re.sub(REPEATED_BLANKS_RX, '', text)
+        return text.strip('\n').replace('\n', self._separator)
 
 
 class CharTokenizer:
@@ -87,36 +139,3 @@ class CMUPhonemizer():
 
     def __call__(self, text: Text) -> Text:
         return "/".join(self.g2p(text))
-
-
-class CMUTokenizer():
-    def __init__(self, vocab=None):
-        super().__init__()
-        if vocab is None:
-            vocab = CMU_VOCAB
-        self.vocab_size = len(vocab)
-        self._vocab = vocab
-        self._v2i = {x: i for i, x in enumerate(vocab)}
-
-    def __call__(self, text: Text) -> np.ndarray:
-        return self.encode(text)
-
-    def encode(self, text: Text) -> np.ndarray:
-        encoded = [self._v2i[ch] for ch in text.split('/') if ch in self._v2i]
-        return np.array(encoded, dtype=np.int64)
-
-    def decode(self, encoded: np.ndarray) -> Text:
-        return '/'.join([
-            self._vocab[x]
-            for x in encoded
-            if 0 <= x < len(self._vocab)])
-
-    def merge_repeated(self, text: Text) -> Text:
-        tokens = []
-        prev_token = None
-        for token in text.split("/"):
-            if token != prev_token:
-                if token != "_":
-                    tokens.append(token)
-                prev_token = token
-        return "/".join(tokens)
