@@ -23,7 +23,7 @@ class MelSpectrogram:
 
     def __call__(self, waveform: np.ndarray) -> np.ndarray:
         audio: np.ndarray = librosa.feature.melspectrogram(
-            waveform,
+            y=waveform,
             sr=self.sample_rate,
             n_fft=self.n_fft,
             hop_length=self.hop_length,
