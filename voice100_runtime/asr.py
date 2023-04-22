@@ -6,7 +6,7 @@ import onnxruntime as ort
 
 from .text import (
     CharTokenizer,
-    CMUTokenizer)
+    BasicTokenizer)
 from .audio import MelSpectrogram
 
 
@@ -17,8 +17,11 @@ class ASR:
     ) -> None:
         self.sample_rate = 16000
         self._model_type = model_type
-        if self._model_type == "phone" or self._model_type == "phone_v2":
-            self._tokenizer = CMUTokenizer()
+        if "phone" in self._model_type:
+            if "ja" in self._model_type:
+                self._tokenizer = BasicTokenizer(language="ja")
+            else:
+                self._tokenizer = BasicTokenizer(language="en")
         else:
             self._tokenizer = CharTokenizer()
         self._transform = MelSpectrogram()
@@ -27,7 +30,7 @@ class ASR:
     def __call__(
         self, waveform: np.ndarray, sample_rate: int, aligned: bool = True
     ) -> np.ndarray:
-        if self._model_type == "v2" or self._model_type == "phone_v2":
+        if "v2" in self._model_type:
             return self._v2(waveform, sample_rate, aligned)
         else:
             return self._v1(waveform, sample_rate, aligned)

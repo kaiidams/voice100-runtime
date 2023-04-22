@@ -6,9 +6,9 @@ import numpy as np
 
 __all__ = [
     "BasicPhonemizer",
+    "BasicTokenizer",
     "CharTokenizer",
     "CMUPhonemizer",
-    "CMUTokenizer",
 ]
 
 DEFAULT_CHARACTERS = "_ abcdefghijklmnopqrstuvwxyz'"
@@ -45,11 +45,12 @@ REPEATED_BLANKS_RX = re.compile(r'(\n\t)+(?=\n)')
 
 
 def make_aligntext(text, align, head=5, tail=5) -> np.ndarray:
-    aligntext_len = head + int(np.sum(align)) + tail
+    aligntext_len = head + int(np.sum(align) - align[0, 0]) + tail
     aligntext = np.zeros(aligntext_len, dtype=text.dtype)
     t = head
     for i in range(align.shape[0]):
-        t += align[i, 0].item()
+        if i > 0:
+            t += align[i, 0].item()
         s = round(t)
         t += align[i, 1].item()
         e = round(t)

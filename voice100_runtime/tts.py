@@ -18,16 +18,17 @@ class TTS:
     ):
         self.sample_rate = 16000
         self._model_type = model_type
-        if self._model_type == "mt":
+        if "mt" in self._model_type:
             self._phonemizer = BasicPhonemizer()
             self._tokenizer = CharTokenizer()
             self._output_tokenizer = BasicTokenizer(language="en")
-        elif self._model_type in "phone" or self._model_type == "phone_v2":
-            self._phonemizer = CMUPhonemizer()
-            self._tokenizer = BasicTokenizer(language="en")
-        elif self._model_type in "ja_phone_v2":
-            self._phonemizer = None
-            self._tokenizer = BasicTokenizer(language="ja")
+        elif "phone" in self._model_type:
+            if "ja" in self._model_type:
+                self._phonemizer = None
+                self._tokenizer = BasicTokenizer(language="ja")
+            else:
+                self._phonemizer = CMUPhonemizer()
+                self._tokenizer = BasicTokenizer(language="en")
         else:
             self._phonemizer = BasicPhonemizer()
             self._tokenizer = CharTokenizer()
@@ -38,7 +39,7 @@ class TTS:
     def __call__(
         self, input_text: str, return_align: bool = False
     ) -> Union[Tuple[np.ndarray, int], Tuple[np.ndarray, int, Text]]:
-        if self._model_type in ['v2', "phone_v2", "ja_phone_v2"]:
+        if "v2" in self._model_type:
             return self._v2(input_text, return_align)
         else:
             return self._v1(input_text, return_align)
@@ -55,7 +56,7 @@ class TTS:
         align = np.exp(align) - 1
         align = align[0]
         aligntext = make_aligntext(text, align)
-        if self._model_type == "mt":
+        if "mt" in self._model_type:
             f0, logspc, codeap, logits = self._audio_sess.run(
                 output_names=["f0", "logspc", "codeap", "logits"],
                 input_feed={"aligntext": aligntext[None, :]},
