@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "voice100-runtime"
+version = "1.6.1"
+description = "Voice100 Runtime is a TTS/ASR sample app that uses ONNX Runtime, WORLD and Voice100 neural TTS/ASR models on Python. Inference of Voice100 is low cost as its models are tiny and only depend on CNN without recursion."
+authors = ["Katsuya Iida <katsuya.iida@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+onnxruntime = ">=1.14"
+librosa = ">=0"
+numpy = ">=1.23"
+pyworld = "^0.3.2"
+
+[tool.poetry.extras]
+lang-en-phone = ["g2p-en"]
+
+[tool.poetry.group.test]  # This part can be left out
+
+[tool.poetry.group.test.dependencies]
+pytest = "^6.0.0"
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
