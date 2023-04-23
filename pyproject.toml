@@ -20,6 +20,7 @@ lang-en-phone = ["g2p-en"]
 
 [tool.poetry.group.test.dependencies]
 pytest = "^6.0.0"
+soundfile = ">0.12"
 flake8 = "^6.0.0"
 
 [build-system]
